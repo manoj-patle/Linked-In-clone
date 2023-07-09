@@ -1,17 +1,8 @@
-import React from 'react';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { styled } from 'styled-components';
-import HouseRoundedIcon from '@mui/icons-material/HouseRounded';
-import HailRoundedIcon from '@mui/icons-material/HailRounded';
-import BusinessCenterRoundedIcon from '@mui/icons-material/BusinessCenterRounded';
-import SmsRoundedIcon from '@mui/icons-material/SmsRounded';
-import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import AppsRoundedIcon from '@mui/icons-material/AppsRounded';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import { SearchRounded, SmsRounded, HouseRounded, HailRounded, BusinessCenterRounded, ArrowDropDownRounded, AccountCircleRounded, AppsRounded, NotificationsRounded } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
-const Header = (props) => {
+const Header = () => {
   return (
     <>
       <Container>
@@ -37,6 +28,7 @@ const Header = (props) => {
                   <span>Home</span>
                 </Link>
               </NavList>
+
               <NavList>
                 <Link>
                   <NavNetwork />
@@ -111,7 +103,6 @@ const Logo = styled.span`
   font-size: 0px;
 `;
 const Search = styled.div`
-  /* display: flex; */
   opacity: 1;
   flex-grow: 1;
   position: relative;
@@ -135,7 +126,7 @@ const Search = styled.div`
   }
 `;
 
-const MagnifyIcon = styled(SearchRoundedIcon)`
+const MagnifyIcon = styled(SearchRounded)`
   width: 40px;
   position: absolute;
   z-index: 1;
@@ -214,10 +205,14 @@ const NavList = styled.li`
   }
 `;
 
-const NavHome = styled(HouseRoundedIcon)``;
-const NavNetwork = styled(HailRoundedIcon)``;
-const NavJob = styled(BusinessCenterRoundedIcon)``;
-const NavSMS = styled(SmsRoundedIcon)``;
+const NavUser = styled(AccountCircleRounded)``;
+const NavDown = styled(ArrowDropDownRounded)``;
+const NavWork = styled(AppsRounded)``;
+const NavNotifications = styled(NotificationsRounded)``;
+const NavHome = styled(HouseRounded)``;
+const NavNetwork = styled(HailRounded)``;
+const NavJob = styled(BusinessCenterRounded)``;
+const NavSMS = styled(SmsRounded)``;
 const SignOut = styled.div`
   position: absolute;
   top: 45px;
@@ -250,9 +245,5 @@ const Work = styled(User)`
   padding-left: 10px;
   border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
-const NavUser = styled(AccountCircleRoundedIcon)``;
-const NavDown = styled(ArrowDropDownRoundedIcon)``;
-const NavWork = styled(AppsRoundedIcon)``;
-const NavNotifications = styled(NotificationsRoundedIcon)``;
 
 export default Header;
