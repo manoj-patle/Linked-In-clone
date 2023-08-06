@@ -2,13 +2,22 @@ import { styled } from 'styled-components';
 import { ArtCard } from './LeftSideBar';
 import ShareButtons from './ShareButtons';
 import Article from './Article';
+import { useState } from 'react';
+import PostModal from './PostModal';
+
 const Middle = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handlePostClick = (e) => {
+    e.preventDefault();
+    setShowModal(!showModal);
+  };
+
   return (
     <Container>
       <ShareBox>
         <div>
           <img src="/images/user.svg" alt="" />
-          <button>Start a post</button>
+          <button onClick={handlePostClick}>Start a post</button>
         </div>
         <div>
           <ShareButtons imgSrc={'/images/photo-icon.svg'} PhotoName={'Photo'} />
@@ -20,6 +29,7 @@ const Middle = () => {
       <div>
         <Article />
       </div>
+      <PostModal showModal={showModal} handleClick={handlePostClick} />
     </Container>
   );
 };
@@ -45,6 +55,7 @@ export const ShareBox = styled(ArtCard)`
       align-items: center;
       font-weight: 600;
     }
+
     &:first-child {
       display: flex;
       align-items: center;
@@ -62,20 +73,32 @@ export const ShareBox = styled(ArtCard)`
         padding-left: 16px;
         background-color: white;
         text-align: left;
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(0, 0, 0, 0.15);
+        }
       }
     }
     &:nth-child(2) {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: space-around;
       padding-bottom: 4px;
-
+      flex-grow: 1;
       button {
         display: flex;
         flex-direction: row;
-        /* flex-wrap: wrap; */
+        justify-content: space-around;
+        flex-wrap: wrap;
+        border-radius: 8px;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.15);
+        }
         img {
           margin: 0 4px 0 -2px;
+          width: 48px;
+          border-radius: 50%;
+          margin-right: 8px;
         }
         @media (max-width: 980px) {
           overflow: hidden;

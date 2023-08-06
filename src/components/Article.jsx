@@ -138,11 +138,16 @@ const SocialActions = styled.div`
   padding: 4px 8px;
   /* flex-wrap: wrap; */
   button {
+    flex-grow: 1;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     padding: 8px;
     height: 40px;
+    border: none;
+    flex-wrap: wrap;
+    background-color: transparent;
+    border-radius: 5px;
     img {
       height: 20px;
     }
@@ -150,6 +155,9 @@ const SocialActions = styled.div`
       span {
         margin-left: 8px;
       }
+    }
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.15);
     }
   }
 `;

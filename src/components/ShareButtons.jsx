@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
+import { styled } from 'styled-components';
 const ShareButtons = ({ imgSrc, PhotoName }) => {
   return (
     <>
-      <button>
+      <Button>
         <img src={imgSrc} alt="" />
         <span>{PhotoName}</span>
-      </button>
+      </Button>
     </>
   );
 };
-
+const Button = styled.button``;
 ShareButtons.propTypes = {
   imgSrc: PropTypes.string.isRequired,
   PhotoName: PropTypes.string.isRequired,

@@ -1,22 +1,32 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, updateProfile, getAuth } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
+import HomePageLogo from '../components/HomePageLogo';
+// import { Connect } from 'react-redux';
 const Login = () => {
   const [userValue, setUserValue] = useState({
     userName: '',
     userEmail: '',
     userPassword: '',
   });
+
   const navigation = useNavigate();
   const googleProvider = new GoogleAuthProvider();
-  const handleSubmit = () => {
-    // console.log(userValue);
+  const handleSignBtn = () => {
+    navigation('/signin');
+  };
+
+  const handleSubmit = async () => {
+    console.log(userValue);
     createUserWithEmailAndPassword(auth, userValue.userEmail, userValue.userPassword)
       .then(async (userCredential) => {
-        const user = userCredential.user;
-        await updateProfile(user, {
+        navigation('/signin');
+        console.log(userCredential);
+        const user = await userCredential.user;
+
+        updateProfile(user, {
           displayName: userValue.userName,
         });
       })
@@ -40,12 +50,10 @@ const Login = () => {
   return (
     <Container>
       <Nav>
-        <Link to="/">
-          <img src="/images/login-logo.svg" alt="" />
-        </Link>
+        <HomePageLogo />
         <div>
           <Join>Join now</Join>
-          <SignIn>Sign In</SignIn>
+          <SignIn onClick={handleSignBtn}>Sign In</SignIn>
         </div>
       </Nav>
       <Section>
@@ -54,10 +62,10 @@ const Login = () => {
           <img src="/images/login-hero1.png" alt="" />
         </Hero>
         <Form>
-          <input type="text" name="name" placeholder="Name" onChange={(e) => setUserValue((prev) => ({ ...prev, userName: e.target.value }))} />
+          <input type="text" name="name" placeholder="Full Name" onChange={(e) => setUserValue((prev) => ({ ...prev, userName: e.target.value }))} />
           <input type="email" name="email" placeholder="Email" onChange={(e) => setUserValue((prev) => ({ ...prev, userEmail: e.target.value }))} />
           <input type="password" name="password" placeholder="Password" onChange={(e) => setUserValue((prev) => ({ ...prev, userPassword: e.target.value }))} />
-          <LoginBtn onClick={() => handleSubmit()}>Register</LoginBtn>
+          <RegisterBtn onClick={handleSubmit}>Register</RegisterBtn>
           <Or>
             <p></p>
             <p>or</p>
@@ -72,10 +80,10 @@ const Login = () => {
     </Container>
   );
 };
-const Container = styled.div`
+export const Container = styled.div`
   padding: 0px;
 `;
-const Nav = styled.nav`
+export const Nav = styled.nav`
   max-width: 1128px;
   margin: auto;
   padding: 12px 0 16px;
@@ -100,6 +108,7 @@ const Join = styled.a`
   border-radius: 5px;
   color: rgba(0, 0, 0, 0.6);
   margin-right: 12px;
+  cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.08);
     color: rgba(0, 0, 0, 0.9);
@@ -116,6 +125,7 @@ const SignIn = styled.a`
   font-weight: 600;
   line-height: 40px;
   text-align: center;
+  cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
   &:hover {
     background-color: rgba(112, 181, 249, 0.15);
@@ -202,7 +212,7 @@ const Or = styled.div`
     width: 46%;
   }
 `;
-const Form = styled.div`
+export const Form = styled.div`
   margin-top: 100px;
   width: 408px;
   display: flex;
@@ -250,7 +260,7 @@ const Google = styled.button`
   }
 `;
 
-const LoginBtn = styled(Google)`
+export const RegisterBtn = styled(Google)`
   align-items: center;
   box-shadow: inset 0 0 0 1px #0a66c2;
   color: #0a66c2;
@@ -261,4 +271,12 @@ const LoginBtn = styled(Google)`
     text-decoration: none;
   }
 `;
+
+// const mapStateToProps = (state) => {
+//   return {};
+// };
+
+// const mapDispatchToProps = (dispatch) => ({});
+// // eslint-disable-next-line react-refresh/only-export-components
+// export default Connect(mapStateToProps, mapDispatchToProps)(Login);
 export default Login;

@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { TurnedInRounded, Add, GroupAddRounded } from '@mui/icons-material';
+import { TurnedInRounded, Add } from '@mui/icons-material';
 
 const LeftSideBar = () => {
   return (
@@ -9,21 +9,35 @@ const LeftSideBar = () => {
           <CardBackground />
           <a>
             <Photo />
-            <Link>Welcome, Manoj Patle</Link>
+            <Link>Manoj Patle</Link>
           </a>
           <a>
-            <AddPhotoText>Add Photo</AddPhotoText>
+            <HeadlineText>Business Manager | Sales and Service Operations</HeadlineText>
           </a>
         </UserInfo>
         <Widget>
           <a>
             <div>
-              <span>Conections</span>
-              <span>Grow Network</span>
+              <span>{`Who's viewed your profile`}</span>
             </div>
-            <AddConnection />
+            <div>22</div>
+          </a>
+          <a>
+            <div>
+              <span>{`Impressions of your post`}</span>
+            </div>
+            <div>8</div>
           </a>
         </Widget>
+        <Premium>
+          <div>Access exclusive tools & insights</div>
+          <div>
+            <span>
+              <img src="\images\RetryPremium.svg" alt="" />
+              <p>Network Smarter, Try Premium Free</p>
+            </span>
+          </div>
+        </Premium>
         <Item>
           <span>
             <MyItem />
@@ -33,6 +47,9 @@ const LeftSideBar = () => {
       </ArtCard>
 
       <CommunityCard>
+        <a>
+          <span>Recent</span>
+        </a>
         <a>
           <span>Groups</span>
         </a>
@@ -96,11 +113,14 @@ const Photo = styled.div`
 const Link = styled.div`
   font-size: 16px;
   line-height: 1.5;
-  color: rgba(0, 0, 0, 0.9);
+  color: rgba(0, 0, 0, 0.7);
   font-weight: 600;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
-const AddPhotoText = styled.div`
-  color: #0a66c2;
+const HeadlineText = styled.div`
+  color: rgba(0, 0, 0, 0.6);
   margin-top: 4px;
   font-size: 12px;
   line-height: 1.33;
@@ -124,38 +144,45 @@ const Widget = styled.div`
       display: flex;
       flex-direction: column;
       text-align: left;
+      font-weight: 600;
+      font-size: 12px;
       span {
-        font-size: 12px;
         line-height: 1.33;
-        &:first-child {
-          color: rgba(0, 0, 0, 0.6);
-        }
-        &:nth-child(2) {
-          color: rgba(0, 0, 0, 1);
-        }
+        color: rgba(0, 0, 0, 0.6);
+      }
+      &:last-child {
+        color: #0a66c2;
       }
     }
   }
 `;
-const Item = styled.a`
+const Premium = styled.a`
   border-color: rgba(0, 0, 0, 0.8);
   text-align: left;
   padding: 12px;
   font-size: 12px;
   display: block;
+  line-height: 16px;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.4); */
   span {
     display: flex;
     align-items: center;
-    color: rgba(0, 0, 0, 1);
     svg {
       color: rgba(0, 0, 0, 0.6);
+    }
+    & > p {
+      text-decoration: underline;
+      font-weight: 600;
     }
   }
   &:hover {
     background-color: rgba(0, 0, 0, 0.08);
   }
+  &:last-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+  }
 `;
-const AddConnection = styled(GroupAddRounded)``;
+const Item = styled(Premium)``;
 const MyItem = styled(TurnedInRounded)``;
 const AddComponent = styled(Add)``;
 const CommunityCard = styled(ArtCard)`

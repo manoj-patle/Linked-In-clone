@@ -1,6 +1,7 @@
-// import { legacy_createStore } from 'redux';
+// import { legacy_createStore, applyMiddleware } from 'redux';
 
-// export const store = legacy_createStore(rootReducer);
-// const rootReducer = {
-//   reducer: 'reduce',
-// };
+// import rootReducer from './redux/reducer';
+
+// const store = legacy_createStore(rootReducer, {});
+
+// export default store;

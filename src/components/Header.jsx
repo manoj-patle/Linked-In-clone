@@ -1,7 +1,8 @@
 import { styled } from 'styled-components';
 import { SearchRounded, SmsRounded, HouseRounded, HailRounded, BusinessCenterRounded, ArrowDropDownRounded, AccountCircleRounded, AppsRounded, NotificationsRounded } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-
+import NavOption from './NavOption';
+import { NavList } from './NavOption';
 const Header = () => {
   return (
     <>
@@ -22,37 +23,11 @@ const Header = () => {
           </Search>
           <Nav>
             <NavListWrapper>
-              <NavList className="active">
-                <Link>
-                  <NavHome />
-                  <span>Home</span>
-                </Link>
-              </NavList>
-
-              <NavList>
-                <Link>
-                  <NavNetwork />
-                  <span>My Network</span>
-                </Link>
-              </NavList>
-              <NavList>
-                <Link>
-                  <NavJob />
-                  <span>Jobs</span>
-                </Link>
-              </NavList>
-              <NavList>
-                <Link>
-                  <NavSMS />
-                  <span>Messaging</span>
-                </Link>
-              </NavList>
-              <NavList>
-                <Link>
-                  <NavNotifications />
-                  <span>Notifications</span>
-                </Link>
-              </NavList>
+              <NavOption Icon={HouseRounded} iconName="Home" isClass="true" />
+              <NavOption Icon={HailRounded} iconName="My Network" />
+              <NavOption Icon={BusinessCenterRounded} iconName="Jobs" />
+              <NavOption Icon={SmsRounded} iconName="Messaging" />
+              <NavOption Icon={NotificationsRounded} iconName="Notifications" />
               <User>
                 <Link>
                   <NavUser />
@@ -69,7 +44,7 @@ const Header = () => {
                 <Link>
                   <NavWork />
                   <span>
-                    Work
+                    For Business
                     <NavDown />
                   </span>
                 </Link>
@@ -159,48 +134,14 @@ const NavListWrapper = styled.ul`
   .active {
     span:after {
       content: '';
-      transform: scaleX(1);
+      transform: scaleX(1.8);
       border-bottom: 2px solid var(--white, #fff);
       bottom: 0;
       left: 0;
       position: absolute;
       transition: transfrom 0.2s ease-in-out;
       width: 100%;
-      border-color: rgba(0, 0, 0, 0.9);
-    }
-  }
-`;
-const NavList = styled.li`
-  display: flex;
-  align-items: center;
-  a {
-    align-items: center;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    font-size: 12px;
-    font-weight: 400;
-    justify-content: center;
-    line-height: 1.5;
-    min-height: 52px;
-    min-width: 80;
-    position: relative;
-    text-decoration: none;
-    span {
-      color: rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-    }
-    @media (max-width: 768px) {
-      min-width: 70px;
-    }
-  }
-  &:hover,
-  &:active {
-    a {
-      span {
-        color: rgba(0, 0, 0, 0.9);
-      }
+      border-color: rgba(0, 0, 0, 0.6);
     }
   }
 `;
@@ -208,11 +149,7 @@ const NavList = styled.li`
 const NavUser = styled(AccountCircleRounded)``;
 const NavDown = styled(ArrowDropDownRounded)``;
 const NavWork = styled(AppsRounded)``;
-const NavNotifications = styled(NotificationsRounded)``;
-const NavHome = styled(HouseRounded)``;
-const NavNetwork = styled(HailRounded)``;
-const NavJob = styled(BusinessCenterRounded)``;
-const NavSMS = styled(SmsRounded)``;
+
 const SignOut = styled.div`
   position: absolute;
   top: 45px;

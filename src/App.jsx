@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Login from './pages/Login';
 import { Routes, Route } from 'react-router-dom';
+import SignIn from './pages/SignIn';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             </>
           }
         />
+        <Route exact path="/signin" element={<SignIn />} />
       </Routes>
     </>
   );
