@@ -7,22 +7,26 @@ import HomePageLogo from '../components/HomePageLogo';
 // import { Connect } from 'react-redux';
 const Login = () => {
   const [userValue, setUserValue] = useState({
-    userName: '',
-    userEmail: '',
-    userPassword: '',
+    userName: "",
+    userEmail: "",
+    userPassword: "",
   });
 
   const navigation = useNavigate();
   const googleProvider = new GoogleAuthProvider();
   const handleSignBtn = () => {
-    navigation('/signin');
+    navigation("/signin");
   };
 
   const handleSubmit = async () => {
     console.log(userValue);
-    createUserWithEmailAndPassword(auth, userValue.userEmail, userValue.userPassword)
+    createUserWithEmailAndPassword(
+      auth,
+      userValue.userEmail,
+      userValue.userPassword
+    )
       .then(async (userCredential) => {
-        navigation('/signin');
+        navigation("/signin");
         console.log(userCredential);
         const user = await userCredential.user;
 
@@ -40,7 +44,7 @@ const Login = () => {
     signInWithPopup(auth, googleProvider)
       .then((register) => {
         console.log(register);
-        navigation('/home');
+        navigation("/home");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -57,14 +61,38 @@ const Login = () => {
         </div>
       </Nav>
       <Section>
-        <Hero>
+        <Logo>
           <h1>Welcome to your professional community</h1>
-          <img src="/images/login-hero1.png" alt="" />
-        </Hero>
+          <img src="/images/login-logo1.png" alt="" />
+        </Logo>
         <Form>
-          <input type="text" name="name" placeholder="Full Name" onChange={(e) => setUserValue((prev) => ({ ...prev, userName: e.target.value }))} />
-          <input type="email" name="email" placeholder="Email" onChange={(e) => setUserValue((prev) => ({ ...prev, userEmail: e.target.value }))} />
-          <input type="password" name="password" placeholder="Password" onChange={(e) => setUserValue((prev) => ({ ...prev, userPassword: e.target.value }))} />
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            onChange={(e) =>
+              setUserValue((prev) => ({ ...prev, userName: e.target.value }))
+            }
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={(e) =>
+              setUserValue((prev) => ({ ...prev, userEmail: e.target.value }))
+            }
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={(e) =>
+              setUserValue((prev) => ({
+                ...prev,
+                userPassword: e.target.value,
+              }))
+            }
+          />
           <RegisterBtn onClick={handleSubmit}>Register</RegisterBtn>
           <Or>
             <p></p>
@@ -133,7 +161,7 @@ const SignIn = styled.a`
     text-decoration: none;
   }
 `;
-const Hero = styled.div`
+const Logo = styled.div`
   width: 100%;
   h1 {
     padding-bottom: 0;
@@ -153,24 +181,25 @@ const Hero = styled.div`
   }
   img {
     /* z-index: -1; text should have more prority */
-    margin-top: 50px;
+    /* margin-top: 50px; */
     width: 700px;
-    /* height: 600px; */
+    height: 560px;
     position: absolute;
     bottom: -2px;
     right: -150px;
-    @media (max-width: 980px) {
+    /* @media (max-width: 980px) {
       transition-duration: 200ms;
       width: 600px;
     }
     @media (max-width: 880px) {
       transition-duration: 200ms;
       width: 480px;
-    }
-    @media (max-width: 778px) {
+    } */
+    @media (max-width: 993px) {
       transition-duration: 200ms;
       top: 230px;
-      width: 400px;
+      /* width: 400px; */
+      width: initial;
       position: initial;
       height: initial;
     }
@@ -229,9 +258,9 @@ export const Form = styled.div`
     width: 100%;
     border-radius: 5px;
   }
-  input[type='email']::placeholder,
-  input[type='password']::placeholder,
-  input[type='text']::placeholder {
+  input[type="email"]::placeholder,
+  input[type="password"]::placeholder,
+  input[type="text"]::placeholder {
     text-align: center;
     color: rgba(0, 0, 0, 0.4);
   }
@@ -248,7 +277,8 @@ const Google = styled.button`
   height: 56px;
   width: 100%;
   border-radius: 28px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; /* https://getcssscan.com/css-box-shadow-examples */
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; /* https://getcssscan.com/css-box-shadow-examples */
   vertical-align: middle;
   z-index: 0;
   transition-duration: 167ms;
@@ -272,9 +302,16 @@ export const RegisterBtn = styled(Google)`
   }
 `;
 
-// const mapStateToProps = (state) => {
-//   return {};
-// };
+const mapStateToProps = (state) => {
+  return {
+    user: state.useState.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    SignInwithGoogle: () => dispatch(signInAPI),
+  };
+};
 
 // const mapDispatchToProps = (dispatch) => ({});
 // // eslint-disable-next-line react-refresh/only-export-components

@@ -1,47 +1,64 @@
-import { Close, Image, SmartDisplay, CommentRounded } from '@mui/icons-material';
-import { db } from '../firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { useState } from 'react';
-import { styled } from 'styled-components';
-import PropTypes from 'prop-types';
+import {
+  Close,
+  Image,
+  SmartDisplay,
+  CommentRounded,
+} from "@mui/icons-material";
+import { db } from "../firebase";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useState } from "react";
+import { styled } from "styled-components";
+import PropTypes from "prop-types";
+import ReactPlayer from "react-player";
 
 const PostModal = ({ showModal, handleClick }) => {
-  const [editedText, setEditedText] = useState('');
-  const[shareImage, setShareImage] = useState();
-
+  const [editedText, setEditedText] = useState("");
+  const [shareImage, setShareImage] = useState("");
+  const [videoLink, setVideoLink] = useState("");
+  const [assetArea, setAssetArea] = useState("");
   const reset = (e) => {
-    setEditedText('');
+    setEditedText("");
+    setShareImage("");
+    setVideoLink("");
+
     handleClick(e);
   };
 
   const submitPost = (e) => {
     e.preventDefault();
-    alert('post added');
-    addDoc(collection(db, 'Posts'), {
-      postedBy: 'Manoj',
-      postText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      postMessage: 'inputPost',
-      photoURL: 'userPhoto URL',
-      timeStamp: serverTimestamp(),      
+    alert("post added");
+    addDoc(collection(db, "Posts"), {
+      postedBy: "Manoj",
+      postText:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      postMessage: "inputPost",
+      photoURL: "userPhoto URL",
+      timeStamp: serverTimestamp(),
       likes: 2,
       comments: [
         {
-          by: 'Rishabh',
-          comment: 'Great Share',
+          by: "Rishabh",
+          comment: "Great Share",
         },
       ],
     });
-    reset(e)
+    reset(e);
   };
-  const handleSharedImage = (e)=>{
-    const image = e.target.file[0];
-    if(image===''|| image ===undefined){
-      alert(`Please upload an image, the file is a ${typeof image}`)
+  const handleSharedImage = (e) => {
+    const image = e.target.files[0];
+    console.log(image);
+    if (image === "" || image === undefined) {
+      alert(`Please upload an image, the file is a ${typeof image}`);
       return;
     }
     setShareImage(image);
-  }
-console.log(shareImage);
+  };
+  const selectAssetArea = (area) => {
+    setShareImage("");
+    setVideoLink("");
+    setAssetArea(area);
+  };
+  // console.log(shareImage);
   return (
     <>
       {showModal ? (
@@ -59,22 +76,53 @@ console.log(shareImage);
                 <span>Name</span>
               </UserInfo>
               <Editor>
-                <textarea value={editedText} name="editedText" onChange={(e) => setEditedText(e.target.value)} placeholder="Start typing or draft with AI🪄 " autoFocus={true} />
-                <UploadImage>
-                  <input type="file" accept="image/gif, image/jpeg, image/png" name="image" id="file" style={{ display: 'none' }} onChange={handleSharedImage} />
-                  <p>
-                    <label htmlFor="file">Select an image to share</label>
-                  </p>
-                  {shareImage && <img src={URL.createObjectURL(shareImage)}/>}
-                </UploadImage>
+                <textarea
+                  value={editedText}
+                  name="editedText"
+                  onChange={(e) => setEditedText(e.target.value)}
+                  placeholder="Start typing or draft with AI🪄 "
+                  autoFocus={true}
+                />
+                {assetArea === "image" ? (
+                  <UploadImage>
+                    <input
+                      type="file"
+                      accept="image/gif, image/jpeg, image/png"
+                      name="image"
+                      id="file"
+                      style={{ display: "none" }}
+                      onChange={handleSharedImage}
+                    />
+                    <p>
+                      <label htmlFor="file">Select an image to share</label>
+                    </p>
+                    {shareImage && (
+                      <img src={URL.createObjectURL(shareImage)} />
+                    )}
+                  </UploadImage>
+                ) : (
+                  assetArea === "video" && (
+                    <>
+                      <input
+                        type="text"
+                        placeholder="Please input a video link"
+                        value={videoLink}
+                        onChange={(e) => setVideoLink(e.target.value)}
+                      />
+                      {videoLink && (
+                        <ReactPlayer width={"100%"} url={videoLink} />
+                      )}
+                    </>
+                  )
+                )}
               </Editor>
             </SharedContent>
             <ShareCreation>
               <AttachedAsset>
-                <AssetBtn>
+                <AssetBtn onClick={() => selectAssetArea("image")}>
                   <Image color="action" />
                 </AssetBtn>
-                <AssetBtn>
+                <AssetBtn onClick={() => selectAssetArea("video")}>
                   <SmartDisplay color="action" />
                 </AssetBtn>
               </AttachedAsset>
@@ -207,12 +255,12 @@ const PostBtn = styled.button`
   border-radius: 20px;
   padding-left: 16px;
   padding-right: 16px;
-  background: ${(props) => (props.disabled ? 'rgba(0,0,0,0.8)' : '#0a66c2')};
-  color: ${props=>props.disabled? 'rgba(0,0,0,0.01)':'white'};
+  background: ${(props) => (props.disabled ? "rgba(0,0,0,0.8)" : "#0a66c2")};
+  color: ${(props) => (props.disabled ? "rgba(0,0,0,0.01)" : "white")};
   height: 30px;
 
   &:hover {
-    background: ${(props) => (props.disabled ? 'rgba(0,0,0,0.4)' : '#004182')};
+    background: ${(props) => (props.disabled ? "rgba(0,0,0,0.4)" : "#004182")};
   }
 `;
 
@@ -231,10 +279,10 @@ const Editor = styled.div`
   }
 `;
 const UploadImage = styled.div`
-text-align: center;
-img{
-  width: 100%;
-}
+  text-align: center;
+  img {
+    width: 100%;
+  }
 `;
 PostModal.propTypes = {
   showModal: PropTypes.bool.isRequired,

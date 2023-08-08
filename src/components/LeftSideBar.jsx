@@ -12,7 +12,9 @@ const LeftSideBar = () => {
             <Link>Manoj Patle</Link>
           </a>
           <a>
-            <HeadlineText>Business Manager | Sales and Service Operations</HeadlineText>
+            <HeadlineText>
+              Business Manager | Sales and Service Operations
+            </HeadlineText>
           </a>
         </UserInfo>
         <Widget>
@@ -20,13 +22,13 @@ const LeftSideBar = () => {
             <div>
               <span>{`Who's viewed your profile`}</span>
             </div>
-            <div>22</div>
+            <div>{Math.floor(Math.random() * 50)}</div>
           </a>
           <a>
             <div>
               <span>{`Impressions of your post`}</span>
             </div>
-            <div>8</div>
+            <div>{Math.floor(Math.random() * 20)}</div>
           </a>
         </Widget>
         <Premium>
