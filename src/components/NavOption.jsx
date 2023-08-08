@@ -53,6 +53,6 @@ export const NavList = styled.li`
 NavOption.propTypes = {
   Icon: PropTypes.elementType.isRequired,
   iconName: PropTypes.string.isRequired,
-  isClass: PropTypes.bool.isRequired,
+  isClass: PropTypes.string,
 };
 export default NavOption;

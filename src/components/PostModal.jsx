@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 const PostModal = ({ showModal, handleClick }) => {
   const [editedText, setEditedText] = useState('');
+  const[shareImage, setShareImage] = useState();
 
   const reset = (e) => {
     setEditedText('');
@@ -21,7 +22,7 @@ const PostModal = ({ showModal, handleClick }) => {
       postText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
       postMessage: 'inputPost',
       photoURL: 'userPhoto URL',
-      timeStamp: serverTimestamp(),
+      timeStamp: serverTimestamp(),      
       likes: 2,
       comments: [
         {
@@ -30,7 +31,17 @@ const PostModal = ({ showModal, handleClick }) => {
         },
       ],
     });
+    reset(e)
   };
+  const handleSharedImage = (e)=>{
+    const image = e.target.file[0];
+    if(image===''|| image ===undefined){
+      alert(`Please upload an image, the file is a ${typeof image}`)
+      return;
+    }
+    setShareImage(image);
+  }
+console.log(shareImage);
   return (
     <>
       {showModal ? (
@@ -50,10 +61,11 @@ const PostModal = ({ showModal, handleClick }) => {
               <Editor>
                 <textarea value={editedText} name="editedText" onChange={(e) => setEditedText(e.target.value)} placeholder="Start typing or draft with AI🪄 " autoFocus={true} />
                 <UploadImage>
-                  <input type="file" accept="image/gif, imahe/jpeg, image/png" name="image" id="file" style={{ display: 'none' }} onChange={() => handleChange()} />
+                  <input type="file" accept="image/gif, image/jpeg, image/png" name="image" id="file" style={{ display: 'none' }} onChange={handleSharedImage} />
                   <p>
                     <label htmlFor="file">Select an image to share</label>
                   </p>
+                  {shareImage && <img src={URL.createObjectURL(shareImage)}/>}
                 </UploadImage>
               </Editor>
             </SharedContent>
@@ -196,7 +208,7 @@ const PostBtn = styled.button`
   padding-left: 16px;
   padding-right: 16px;
   background: ${(props) => (props.disabled ? 'rgba(0,0,0,0.8)' : '#0a66c2')};
-  color: white;
+  color: ${props=>props.disabled? 'rgba(0,0,0,0.01)':'white'};
   height: 30px;
 
   &:hover {
@@ -218,7 +230,12 @@ const Editor = styled.div`
     margin-bottom: 20px;
   }
 `;
-const UploadImage = styled.div``;
+const UploadImage = styled.div`
+text-align: center;
+img{
+  width: 100%;
+}
+`;
 PostModal.propTypes = {
   showModal: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
