@@ -1,7 +1,9 @@
 import { styled } from 'styled-components';
 import { TurnedInRounded, Add } from '@mui/icons-material';
+import { useSelector } from "react-redux";
 
 const LeftSideBar = () => {
+  const userData = useSelector((state) => state.currentUser.currentUser);
   return (
     <Container>
       <ArtCard>
@@ -9,7 +11,7 @@ const LeftSideBar = () => {
           <CardBackground />
           <a>
             <Photo />
-            <Link>Manoj Patle</Link>
+            <Link>{userData && userData.displayName}</Link>
           </a>
           <a>
             <HeadlineText>

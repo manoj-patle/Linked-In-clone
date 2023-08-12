@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 import HomePageLogo from '../components/HomePageLogo';
-// import { Connect } from 'react-redux';
-const Login = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/actions/actions';
+function Login(){
+
   const [userValue, setUserValue] = useState({
     userName: "",
     userEmail: "",
@@ -19,7 +21,7 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(userValue);
+    // console.log(userValue);
     createUserWithEmailAndPassword(
       auth,
       userValue.userEmail,
@@ -27,7 +29,7 @@ const Login = () => {
     )
       .then(async (userCredential) => {
         navigation("/signin");
-        console.log(userCredential);
+        // console.log(userCredential);
         const user = await userCredential.user;
 
         updateProfile(user, {
@@ -39,20 +41,32 @@ const Login = () => {
         const errorMessage = error.message;
       });
   };
-
+  const dispatch = useDispatch()
   const SignInwithGoogle = () => {
     signInWithPopup(auth, googleProvider)
       .then((register) => {
-        console.log(register);
-        navigation("/home");
+        const user = {
+          uid: register.user.uid,
+          email: register.user.email,
+          displayName : register.user.displayName,
+          photoURL: register.user.photoURL,
+        }
+        dispatch(setUser(user))
+        // navigation("/home");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
       });
   };
+  const user = useSelector((state)=>{
+    return state.currentUser.currentUser
+  })
   return (
-    <Container>
+    <Container>{
+      user && (<Navigate to="/home"/>
+      )
+      }
       <Nav>
         <HomePageLogo />
         <div>
@@ -99,6 +113,7 @@ const Login = () => {
             <p>or</p>
             <p></p>
           </Or>
+          {/* <Google onClick={() => dispatch(signInAPI())}> */}
           <Google onClick={() => SignInwithGoogle()}>
             <img src="/images/google.svg" alt="" />
             Sign in with Google
@@ -107,7 +122,7 @@ const Login = () => {
       </Section>
     </Container>
   );
-};
+}
 export const Container = styled.div`
   padding: 0px;
 `;
@@ -301,17 +316,21 @@ export const RegisterBtn = styled(Google)`
     text-decoration: none;
   }
 `;
-
-const mapStateToProps = (state) => {
+const mapStateToProps=(state) => {
   return {
     user: state.useState.user,
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps= (dispatch) => {
   return {
-    SignInwithGoogle: () => dispatch(signInAPI),
+    SignIn: () => dispatch(signInAPI()),
   };
 };
+
+// const ConnectedLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
+
+// export default ConnectedLogin;
+// export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 // const mapDispatchToProps = (dispatch) => ({});
 // // eslint-disable-next-line react-refresh/only-export-components
