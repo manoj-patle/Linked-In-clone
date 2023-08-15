@@ -1,8 +1,9 @@
 import { styled } from 'styled-components';
 import { SearchRounded, SmsRounded, HouseRounded, HailRounded, BusinessCenterRounded, ArrowDropDownRounded, AccountCircleRounded, AppsRounded, NotificationsRounded } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
-import NavOption from './NavOption';
-import { NavList } from './NavOption';
+import { Link } from "react-router-dom";
+import NavOption from "./NavOption";
+import { NavList } from "./NavOption";
+import { LogoutAPI } from "../API/AuthAPI";
 const Header = () => {
   return (
     <>
@@ -37,7 +38,7 @@ const Header = () => {
                   </span>
                 </Link>
                 <SignOut>
-                  <Link>Sign Out</Link>
+                  <Link onClick={LogoutAPI}>Sign Out</Link>
                 </SignOut>
               </User>
               <Work>
@@ -133,7 +134,7 @@ const NavListWrapper = styled.ul`
   column-gap: 20px;
   .active {
     span:after {
-      content: '';
+      content: "";
       transform: scaleX(1.8);
       border-bottom: 2px solid var(--white, #fff);
       bottom: 0;
@@ -163,6 +164,9 @@ const SignOut = styled.div`
   display: none;
   a {
     color: rgba(0, 0, 0, 0.6);
+    &:hover {
+      color: rgba(0, 0, 0, 1);
+    }
   }
 `;
 const User = styled(NavList)`

@@ -23,11 +23,11 @@ const PostModal = ({ showModal, handleClick }) => {
 
     handleClick(e);
   };
-
+  const dbRef = collection(db, "Posts");
   const submitPost = (e) => {
     e.preventDefault();
     alert("post added");
-    addDoc(collection(db, "Posts"), {
+    addDoc(dbRef, {
       postedBy: "Manoj",
       postText:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
